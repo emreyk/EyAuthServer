@@ -9,7 +9,6 @@ namespace EyAuthServer.API.Controllers
     public class AuthController : CustomBaseController
     {
         private readonly IAuthenticationService _authenticationService;
-
         public AuthController(IAuthenticationService authenticationService)
         {
             _authenticationService = authenticationService;
@@ -32,5 +31,6 @@ namespace EyAuthServer.API.Controllers
 
             return ActionResultInstance(result);
         }
+
     }
 }

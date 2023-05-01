@@ -13,6 +13,7 @@ namespace EySharedLibrary.Extensions
         {
             app.UseExceptionHandler(config =>
             {
+                //run sonlandırıcı . request diğer  midleware girmez. Use kullanırsak deva eder
                 config.Run(async context =>
                 {
                     context.Response.StatusCode = 500;

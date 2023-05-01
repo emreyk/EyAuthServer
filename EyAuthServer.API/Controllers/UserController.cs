@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EyAuthServer.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : CustomBaseController
     {
@@ -34,5 +34,14 @@ namespace EyAuthServer.API.Controllers
         {
             return ActionResultInstance(await _userService.GetUserByNameAsync(HttpContext.User.Identity.Name));
         }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto changePasswordDto)
+        {
+            string userName = HttpContext.User.Identity.Name;
+            return ActionResultInstance(await _userService.ChangePassword(changePasswordDto, userName));
+        }
+
     }
 }

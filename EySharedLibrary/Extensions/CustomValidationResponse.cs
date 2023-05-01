@@ -8,6 +8,7 @@ namespace EySharedLibrary.Extensions
     {
         public static void UseCustomValidationResponse(this IServiceCollection services)
         {
+            //api hata davranışını değiştir
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = context =>

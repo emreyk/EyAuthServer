@@ -8,5 +8,8 @@ namespace EyAuthServer.Core.Services
         Task<Response<UserAppDto>> CreateUserAsync(CreateUserDto createUserDto);
 
         Task<Response<UserAppDto>> GetUserByNameAsync(string userName);
+
+        Task<Response<NoDataDto>> ChangePassword(ChangePasswordDto model, string userName);
+
     }
 }
