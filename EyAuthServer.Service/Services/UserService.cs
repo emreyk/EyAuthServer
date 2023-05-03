@@ -11,11 +11,13 @@ namespace EyAuthServer.Service.Services
     {
         private readonly UserManager<UserApp> _userManager;
         private readonly SignInManager<UserApp> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserService(UserManager<UserApp> userManager, SignInManager<UserApp> signInManager)
+        public UserService(UserManager<UserApp> userManager, SignInManager<UserApp> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         public async Task<Response<NoDataDto>> ChangePassword(ChangePasswordDto changePasswordDto, string userName)
@@ -58,6 +60,23 @@ namespace EyAuthServer.Service.Services
                 return Response<UserAppDto>.Fail(new ErrorDto(errors, true), 400);
             }
             return Response<UserAppDto>.Success(ObjectMapper.Mapper.Map<UserAppDto>(user), 200);
+        }
+
+        public async Task<Response<NoDataDto>> CreateUserRoles(string userName)
+        {
+            if (!await _roleManager.RoleExistsAsync("admin"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole { Name = "admin" });
+                await _roleManager.CreateAsync(new IdentityRole { Name = "manager" });
+            }
+
+            var user = await _userManager.FindByNameAsync(userName);
+
+            await _userManager.AddToRoleAsync(user, "admin");
+            await _userManager.AddToRoleAsync(user, "manager");
+
+            return Response<NoDataDto>.Success(201);
+
         }
 
         public async Task<Response<UserAppDto>> GetUserByNameAsync(string userName)

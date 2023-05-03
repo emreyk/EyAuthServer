@@ -11,5 +11,7 @@ namespace EyAuthServer.Core.Services
 
         Task<Response<NoDataDto>> ChangePassword(ChangePasswordDto model, string userName);
 
+        Task<Response<NoDataDto>> CreateUserRoles(string userName);
+
     }
 }
